@@ -1,8 +1,12 @@
-# 🛡️ Failure Scenarios & Resilience
+# 🛡️ Failure Scenarios & Resilience: InferenceHub
 
 > "AI Models are slow and fragile. The Gateway must be fast and strong."
 
 This document details how the system handles the unique failure modes of ML inference.
+
+![Workflow](./assets/workflow.png)
+
+---
 
 ## 1. Failure Matrix
 

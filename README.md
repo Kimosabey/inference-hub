@@ -2,45 +2,46 @@
 
 ![Thumbnail](docs/assets/thumbnail.png)
 
-## Decoupled AI Inference Gateway
+## High-Performance AI Inference Gateway with gRPC & Python
 
 <div align="center">
 
 ![Status](https://img.shields.io/badge/Status-Production_Ready-success?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)
-![Protocol](https://img.shields.io/badge/Protocol-gRPC_Protobuf-4285F4?style=for-the-badge)
+![Protocol](https://img.shields.io/badge/Protocol-gRPC_Protobuf-4285F4?style=for-the-badge&logo=grpc&logoColor=white)
 
 </div>
 
-**InferenceHub** is a high-performance **Microservices Pattern** for serving AI models. It decouples the application layer (Node.js) from the compute layer (Python) using **gRPC**, enabling independent scaling, strict type safety, and 10x faster serialization than standard REST APIs.
+**InferenceHub** is a high-performance **Microservices Pattern** for serving AI models. It decouples the application layer (Node.js) from the compute layer (Python) using **gRPC**, enabling independent scaling, strict type safety, and 10x faster serialization than standard REST APIs. This architecture is designed to protect the "Brain" (AI models) from the "Noise" (Concurrent API traffic).
 
 ---
 
 ## 🚀 Quick Start
 
-Launch the distributed system in one command:
+Launch the distributed system (Gateway + Worker + Dashboard) in one command:
 
 ```bash
 # Start Gateway (Node) and Service (Python)
 docker-compose up --build -d
 ```
-> **What this does**: Starts the Python Inference Worker (Port 50051) and the Node.js API Gateway (Port 3000).
+
+> **Detailed Setup**: See [GETTING_STARTED.md](./docs/GETTING_STARTED.md).
 
 ---
 
 ## 📸 Demo & Architecture
 
-### System Flow
-![System Flow](docs/assets/system_flow.png)
-*Client -> Node.js Gateway -> gRPC -> Python Worker*
+### MLOps Performance Dashboard
+![Dashboard](docs/assets/dashboard.png)
+*Monitoring gRPC throughput and model latency with millisecond precision.*
 
-### UI Preview
-![Dashboard](docs/assets/ui_preview.png)
-*React Dashboard for testing models*
+### System Architecture
+![Architecture](docs/assets/architecture.png)
+*Decoupled Gateway Pattern with Binary Protobuf transport.*
 
-### Request Lifecycle
-![Request Flow](docs/assets/request_flow_diagram.png)
-*Sequence Diagram of a prediction request*
+### High-Throuhgput Logic
+![Workflow](docs/assets/workflow.png)
+*Client -> Node.js Gateway (Validation) -> gRPC (Strict Contract) -> Python (Inference).*
 
 > **Deep Dive**: See [ARCHITECTURE.md](./docs/ARCHITECTURE.md) for the `.proto` definitions.
 
@@ -48,22 +49,23 @@ docker-compose up --build -d
 
 ## ✨ Key Features
 
-*   **⚡ gRPC Protocol**: Uses **Protocol Buffers** for binary transport, reducing latency.
-*   **🛡️ Polyglot Architecture**: Best-in-class tools (Node for IO, Python for AI) working together.
-*   **🧠 Strict Contracts**: `.proto` files ensure type safety across languages.
-*   **🐳 Docker Native**: Fully containerized setup for reproducible deployments.
+*   **⚡ binary Transport**: Uses **Protocol Buffers** via gRPC for 60% smaller payloads vs JSON.
+*   **🛡️ Polyglot Architecture**: Node.js for high-concurrency I/O and Python for optimized AI compute.
+*   **🧠 Strict API Contracts**: Zero "Schema Drift" thanks to shared `.proto` source-of-truth.
+*   **🐳 Docker Native**: Orchestrates complex networking between C++ based gRPC runtimes.
 
 ---
 
-## 🏗️ gRPC vs REST
+## 🏗️ The Protective Journey
 
-Why use a binary protocol?
+How a request traverses the polyglot stack:
 
-![gRPC vs REST](docs/assets/grpc_vs_rest.png)
-
-1.  **Smaller Payloads**: Binary is 30-50% smaller than JSON.
-2.  **Faster Serialization**: Parsing JSON is CPU intensive. Protobuf is near-instant.
-3.  **Strict Interface**: No more manual API documentation drift.
+1.  **Entry**: Client submits JSON to the Node.js Gateway.
+2.  **Validate**: Node.js performs schema checks (Zod/Joi) and Auth.
+3.  **Serialize**: Data is packed into a binary Protobuf buffer.
+4.  **Transport**: gRPC stream transmits the buffer to the Python worker.
+5.  **Compute**: Python loads the weights (PyTorch/Scikit) and executes.
+6.  **Return**: Binary result is unpacked by Node and sent to the client as JSON.
 
 ---
 
@@ -71,10 +73,10 @@ Why use a binary protocol?
 
 | Document | Description |
 | :--- | :--- |
-| [**System Architecture**](./docs/ARCHITECTURE.md) | The "Sidecar Proxy" pattern and gRPC design. |
-| [**Getting Started**](./docs/GETTING_STARTED.md) | Docker setup and CURL examples. |
-| [**Failure Scenarios**](./docs/FAILURE_SCENARIOS.md) | Handling "Worker Crash" and "gRPC Deadlines". |
-| [**Interview Q&A**](./docs/INTERVIEW_QA.md) | "Why decouple?" and "REST vs gRPC". |
+| [**System Architecture**](./docs/ARCHITECTURE.md) | gRPC design, Sidecar patterns, and scaling logic. |
+| [**Getting Started**](./docs/GETTING_STARTED.md) | Docker environment, .env, and CURL examples. |
+| [**Failure Scenarios**](./docs/FAILURE_SCENARIOS.md) | gRPC Deadlines, OOM protection, and restarts. |
+| [**Interview Q&A**](./docs/INTERVIEW_QA.md) | "Why decouple?", "REST vs gRPC", and "The Restaurant Analogy". |
 
 ---
 
@@ -82,18 +84,23 @@ Why use a binary protocol?
 
 | Component | Technology | Role |
 | :--- | :--- | :--- |
-| **Gateway** | **Node.js (Express)** | Auth, Validation, Rate Limiting. |
-| **Worker** | **Python 3.9** | PyTorch/Scikit-Learn Runtime. |
-| **Protocol** | **gRPC (Protobuf)** | Inter-service Communication. |
-| **Frontend** | **React + Vite** | Testing Dashboard. |
+| **Gateway** | **Node.js (Express)** | Auth, Validation, gRPC Client. |
+| **Worker** | **Python 3.9** | ML Inference (PyTorch/SK-Learn). |
+| **Protocol** | **gRPC (Protobuf)** | Low-latency binary transport. |
+| **Infrstructure**| **Docker Compose** | Multi-container orchestration. |
 
 ---
 
 ## 👤 Author
 
 **Harshan Aiyappa**  
-Senior Full-Stack Hybrid Engineer  
-[GitHub Profile](https://github.com/Kimosabey)
+Senior Full-Stack Hybrid AI Engineer  
+Voice AI • Distributed Systems • Infrastructure
+
+[![Portfolio](https://img.shields.io/badge/Portfolio-kimo--nexus.vercel.app-00C7B7?style=flat&logo=vercel)](https://kimo-nexus.vercel.app/)
+[![GitHub](https://img.shields.io/badge/GitHub-Kimosabey-black?style=flat&logo=github)](https://github.com/Kimosabey)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Harshan_Aiyappa-blue?style=flat&logo=linkedin)](https://linkedin.com/in/harshan-aiyappa)
+[![X](https://img.shields.io/badge/X-@HarshanAiyappa-black?style=flat&logo=x)](https://x.com/HarshanAiyappa)
 
 ---
 

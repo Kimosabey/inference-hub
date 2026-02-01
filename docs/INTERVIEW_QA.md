@@ -1,4 +1,4 @@
-# 🎤 Interview Cheat Sheet: InferenceHub
+# 🎓 Interview Q&A: InferenceHub
 
 ## 1. The Elevator Pitch (2 Minutes)
 

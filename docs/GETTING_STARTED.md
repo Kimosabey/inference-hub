@@ -1,8 +1,12 @@
-# 🚀 Getting Started with InferenceHub
+# 🚀 Getting Started: InferenceHub
 
 > **Prerequisites**
 > *   **Docker Desktop** (Required for gRPC networking)
 > *   **Git**
+
+![Dashboard Preview](./assets/dashboard.png)
+
+---
 
 ## 1. Environment Setup
 

@@ -1,8 +1,10 @@
-# 🏗️ System Architecture
+# 🏗️ System Architecture: InferenceHub
 
 ## 1. High-Level Design (HLD)
 
 InferenceHub implements the **AI Gateway Pattern**. It separates the "heavy" lifting of Machine Learning (Python/PyTorch) from the "high concurrency" requirements of a Web API (Node.js). They communicate over **gRPC** for efficient low-latency binary transport.
+
+![Architecture](./assets/architecture.png)
 
 ```mermaid
 graph LR
